@@ -41,11 +41,11 @@ export class MarkdownString implements IMarkdownString {
 	get isTrusted() { return this._isTrusted; }
 	get supportThemeIcons() { return this._supportThemeIcons; }
 
-	appendText(value: string): MarkdownString {
+	appendText(value: string, newlineStyle: 'break' | 'paragraph' = 'paragraph'): MarkdownString {
 		// escape markdown syntax tokens: http://daringfireball.net/projects/markdown/syntax#backslash
 		this._value += (this._supportThemeIcons ? escapeCodicons(value) : value)
 			.replace(/[\\`*_{}[\]()#+\-.!]/g, '\\$&')
-			.replace(/\n/g, '\n\n');
+			.replace(/\n/g, newlineStyle === 'break' ? '\\\n' : '\n\n');
 
 		return this;
 	}
